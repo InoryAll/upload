@@ -4,8 +4,11 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, Row, Col, Upload, Icon, message, Table } from 'antd';
+import { Form, Row, Col, Upload, Icon, message, Table, Button, Modal } from 'antd';
 import { connect } from 'react-redux';
+import QRCode from 'qrcode.react';
+import { Link } from 'react-router';
+import moment from 'moment';
 import './main.less';
 import { fileListSelector } from '../selector/selector';
 import { getFileList } from '../action/action';
@@ -83,35 +86,60 @@ class Main extends React.Component {
     getFileList: PropTypes.func.isRequired,
     fileList: PropTypes.object.isRequired,
   };
+  state= {
+    visible: false,
+    QRCodeUrl: null,
+  };
   componentWillMount() {
     const { getFileList }  = this.props;
     getFileList();
   }
+  handleQRClick = (record) => {
+    this.setState({
+      QRCodeUrl: record.path,
+      visible: true,
+    });
+  };
+  handleOk = () => {
+    this.setState({
+      visible: false,
+    });
+  };
+  handleCancel = () => {
+    this.setState({
+      visible: false,
+    });
+  };
   render() {
-    const dataSource = [{
-      key: '1',
-      name: '胡彦斌',
-      age: 32,
-      address: '西湖区湖底公园1号'
-    }, {
-      key: '2',
-      name: '胡彦祖',
-      age: 42,
-      address: '西湖区湖底公园1号'
-    }];
-  
+    const dataSource = this.props.fileList && this.props.fileList.data;
     const columns = [{
-      title: '姓名',
-      dataIndex: 'name',
-      key: 'name',
+      title: '文件名',
+      dataIndex: 'fileName',
+      key: 'fileName',
+      render: (text, record) => {
+        return <Link to={record.path}>{text}</Link>;
+      },
     }, {
-      title: '年龄',
-      dataIndex: 'age',
-      key: 'age',
+      title: '日期',
+      dataIndex: 'timestamp',
+      key: 'timestamp',
+      render: (text, record) => {
+       return text && moment(parseInt(text)).format('YYYY-MM-DD HH:mm:ss');
+      },
     }, {
-      title: '住址',
-      dataIndex: 'address',
-      key: 'address',
+      title: '二维码',
+      dataIndex: 'qcode',
+      key: 'qcode',
+      render: (text, record) => {
+        return (<Link className="QRCode-link" onClick={() => { this.handleQRClick(record); }}><Icon type="qrcode" /></Link>);
+      },
+    }, {
+      title: '操作',
+      dataIndex: 'action',
+      key: 'action',
+      render: () => {
+        return (<Button type="primary">操作</Button>);
+      },
     }];
     return (
       <div className="upload">
@@ -129,6 +157,18 @@ class Main extends React.Component {
               />
             </div>
           </Col>
+        </Row>
+        <Row>
+          <Modal
+            className="upload-modal"
+            title={null}
+            visible={this.state.visible}
+            onOk={this.handleOk}
+            onCancel={this.handleCancel}
+            footer={null}
+          >
+            <QRCode value={this.state.QRCodeUrl} />,
+          </Modal>
         </Row>
       </div>
     );

@@ -19,9 +19,6 @@ router.get('/uploadDir', function(req, res, next) {
   var base = path.join(__dirname, '../uploads');
   // 现在只需要一层目录结构（读取目录下的所有文件）即可
   fs.readdir(base, function (err, files) {
-    files.map((file) => {
-      return '<a href="http://localhost:3000/file">'+file+'</a>';
-    });
     res.render('index', { title: 'FileDirectory', filedirs: files });
   })
 });

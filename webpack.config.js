@@ -19,7 +19,7 @@ module.exports = {
     inline: true,//热加载配置
     hot: true,//热加载配置
     port: 9000,//端口号
-    host: '127.0.0.1',//运行域名
+    host: 'www.fileupload.cn',//运行域名
     overlay: true,//显示编译错误
   },
   module: {

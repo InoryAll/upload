@@ -23,7 +23,6 @@ export function getFileList() {
     }).then((res) => {
       return res.json();
     }).then((data) => {
-      console.log(data);
       dispatch(getFileListAction({ data }));
     }).catch((e) => {
       console.log(e);

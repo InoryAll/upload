@@ -45,7 +45,7 @@ exports.sendUploads = function (req, res, next) {
   fs.readdir(base, function (err, files) {
     files.map((file) => {
       var extName = path.extname(file);
-      result.push({ fileName: file.split('__')[0].concat(extName), timestamp: file.split('__')[1] });
+      result.push({ fileName: file.split('__')[0].concat(extName), timestamp: path.basename(file.split('__')[1], extName), path: 'http://localhost:3000/' + file });
     });
     result.sort(function (pre, next) {
       return pre.timestamp > next.timestamp;

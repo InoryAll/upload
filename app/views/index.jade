@@ -4,7 +4,11 @@ block content
   h1= title
   p Welcome to #{title}
   table
-    each val, index in filedirs
+    if (filedirs && filedirs.length > 0)
+      each val in filedirs
+        tr
+          td
+            a(href="#{val}") #{val}
+    else
       tr
-        td
-          a(href="#{val}") #{val}
+        td No Data.
