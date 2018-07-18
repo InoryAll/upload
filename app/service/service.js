@@ -39,16 +39,17 @@ exports.receiveUploads = function (req, res, next) {
 };
 
 exports.sendUploads = function (req, res, next) {
+  const result = [];
   var base = path.join(__dirname, '../uploads');
   // 现在只需要一层目录结构（读取目录下的所有文件）即可
   fs.readdir(base, function (err, files) {
     files.map((file) => {
       var extName = path.extname(file);
-      return { fileName: file.split('__')[0].concat(extName), timestamp: file.split('__')[1] };
+      result.push({ fileName: file.split('__')[0].concat(extName), timestamp: file.split('__')[1] });
     });
-    files.sort(function (pre, next) {
+    result.sort(function (pre, next) {
       return pre.timestamp > next.timestamp;
     });
-    res.status(200).json({ code: 0, data: files });
+    res.status(200).json({ code: 0, data: result });
   })
 };
