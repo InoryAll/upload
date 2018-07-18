@@ -5,6 +5,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, Row, Col, Upload, Icon, message, Table } from 'antd';
+import connect from 'react-redux';
 import './main.less';
 
 const FormItem = Form.Item;
@@ -76,6 +77,9 @@ const UploadForm = Form.create()((props) => {
 });
 
 class Main extends React.Component {
+  static propTypes = {
+  
+  };
   render() {
     const dataSource = [{
       key: '1',
@@ -124,4 +128,12 @@ class Main extends React.Component {
   }
 }
 
-export default Main;
+const mapStateToProps = (state) => {
+
+};
+
+const mapDispatchToProps = {
+
+};
+
+export default connect()(Main);
