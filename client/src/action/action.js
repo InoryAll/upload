@@ -3,8 +3,9 @@
  * Created by tianrenjie on 2017/11/9
  */
 import { createAction } from 'redux-actions';
-import 'whatwg-fetch';
 import { GET_FILE_LIST } from '../constant/constant';
+
+import 'whatwg-fetch';
 
 const getFileListAction = createAction(GET_FILE_LIST);
 
@@ -13,15 +14,12 @@ const getFileListAction = createAction(GET_FILE_LIST);
  */
 export function getFileList() {
   return (dispatch) => {
-    fetch('http://localhost: 3000/getFile', {
+    fetch('http://localhost:3000/getFile', {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        data: {}
-      })
+      }
     }).then((res) => {
       return res.json();
     }).then((data) => {

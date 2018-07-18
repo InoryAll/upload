@@ -7,7 +7,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: __dirname + "/client/src/index.jsx",//已多次提及的唯一入口文件
+  entry: [ 'whatwg-fetch', __dirname + "/client/src/index.jsx" ],//已多次提及的唯一入口文件
   output: {
     path: __dirname + "/public",
     filename: "bundle.js"

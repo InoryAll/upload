@@ -5,8 +5,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, Row, Col, Upload, Icon, message, Table } from 'antd';
-import connect from 'react-redux';
+import { connect } from 'react-redux';
 import './main.less';
+import { fileListSelector } from '../selector/selector';
+import { getFileList } from '../action/action';
 
 const FormItem = Form.Item;
 
@@ -78,8 +80,13 @@ const UploadForm = Form.create()((props) => {
 
 class Main extends React.Component {
   static propTypes = {
-  
+    getFileList: PropTypes.func.isRequired,
+    fileList: PropTypes.object.isRequired,
   };
+  componentWillMount() {
+    const { getFileList }  = this.props;
+    getFileList();
+  }
   render() {
     const dataSource = [{
       key: '1',
@@ -129,11 +136,13 @@ class Main extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-
+  return {
+    fileList: fileListSelector(state),
+  };
 };
 
 const mapDispatchToProps = {
-
+  getFileList,
 };
 
-export default connect()(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

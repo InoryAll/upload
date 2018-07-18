@@ -4,7 +4,10 @@
  */
 import { GET_FILE_LIST } from '../constant/constant';
 
-const initState = [];
+const initState = {
+  code: undefined,
+  data: [],
+};
 
 export function fileList(state = initState, action) {
   switch(action.type) {
