@@ -3,6 +3,7 @@ var fs = require("fs");
 var moment = require("moment");
 var path = require("path");
 var formidable = require('formidable');
+var config = require('../../config');
 
 exports.receiveUploads = function (req, res, next) {
   
@@ -26,7 +27,7 @@ exports.receiveUploads = function (req, res, next) {
       // 新的路径
       var newpath = path.join(__dirname, '../uploads/'+ fileName + '__' + t + extname);
       // 获取服务器路径
-      var url = 'http://localhost:3000/' + fileName + '__' + t + extname;
+      var url = 'http://'+config.host+'/back/' + fileName + '__' + t + extname;
       //改名
       fs.rename(oldpath, newpath, function (err) {
         if (!err) {
@@ -45,10 +46,13 @@ exports.sendUploads = function (req, res, next) {
   fs.readdir(base, function (err, files) {
     files.map((file) => {
       var extName = path.extname(file);
-      result.push({ fileName: file.split('__')[0].concat(extName), timestamp: path.basename(file.split('__')[1], extName), path: 'http://localhost:3000/' + file });
+      result.push({ fileName: file.split('__')[0].concat(extName),
+        timestamp: path.basename(file.split('__')[1], extName),
+        path: 'http://'+config.host+'/back/' + file,
+        ip_path: 'http://'+config.ip+':'+config.port+'/' + file});
     });
     result.sort(function (pre, next) {
-      return pre.timestamp > next.timestamp;
+      return pre.timestamp < next.timestamp;
     });
     res.status(200).json({ code: 0, data: result });
   })

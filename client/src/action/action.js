@@ -4,6 +4,7 @@
  */
 import { createAction } from 'redux-actions';
 import { GET_FILE_LIST } from '../constant/constant';
+import config from '../../../config';
 
 import 'whatwg-fetch';
 
@@ -14,7 +15,7 @@ const getFileListAction = createAction(GET_FILE_LIST);
  */
 export function getFileList() {
   return (dispatch) => {
-    fetch('http://localhost:3000/getFile', {
+    fetch('http://'+config.host+'/back/getFile', {
       method: 'GET',
       headers: {
         'Accept': 'application/json',

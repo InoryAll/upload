@@ -12,6 +12,7 @@ import moment from 'moment';
 import './main.less';
 import { fileListSelector } from '../selector/selector';
 import { getFileList } from '../action/action';
+import config from '../../../config';
 
 const FormItem = Form.Item;
 
@@ -34,7 +35,7 @@ const UploadForm = Form.create()((props) => {
   const uploadProps = {
     name: 'file',
     multiple: true,
-    action: '//localhost:3000/upload',
+    action: '//'+config.host+'/back/upload',
     onChange(info) {
       const status = info.file.status;
       if (status !== 'uploading') {
@@ -42,6 +43,7 @@ const UploadForm = Form.create()((props) => {
       }
       if (status === 'done') {
         console.log(info);
+        props.getFileList();
         message.success(`${info.file.name} 文件上传成功.`);
       } else if (status === 'error') {
         message.error(`${info.file.name} 文件上传失败.`);
@@ -96,7 +98,7 @@ class Main extends React.Component {
   }
   handleQRClick = (record) => {
     this.setState({
-      QRCodeUrl: record.path,
+      QRCodeUrl: record.ip_path,
       visible: true,
     });
   };
@@ -117,7 +119,7 @@ class Main extends React.Component {
       dataIndex: 'fileName',
       key: 'fileName',
       render: (text, record) => {
-        return <Link to={record.path}>{text}</Link>;
+        return <a href={record.path} download={record.fileName}>{text}</a>;
       },
     }, {
       title: '日期',
