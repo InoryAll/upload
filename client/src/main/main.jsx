@@ -140,7 +140,7 @@ class Main extends React.Component {
       dataIndex: 'action',
       key: 'action',
       render: () => {
-        return (<Button type="primary">操作</Button>);
+        return (<Button type="primary" ghost>操作</Button>);
       },
     }];
     return (
@@ -156,6 +156,10 @@ class Main extends React.Component {
               <Table
                 columns={columns}
                 dataSource={dataSource}
+                pagination={{
+                  defaultCurrent: 1,
+                  pageSize: 5,
+                }}
               />
             </div>
           </Col>
